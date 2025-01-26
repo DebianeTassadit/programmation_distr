@@ -11,6 +11,7 @@ Ce projet inclut des endpoints REST pour gérer et consulter des informations vi
 - **Frameworks et bibliothèques** :
   - **Spring Boot** : Développement rapide de l'application backend.
   - **SLF4J** : Gestion des logs pour tracer les événements et les requêtes.
+
 - **Outils de développement** :
   - **Gradle** : Gestionnaire de build.
   - **Git** : Gestion des versions du code.
