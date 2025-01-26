@@ -43,8 +43,3 @@ Voici les endpoints actuellement implémentés :
 
 4. **Tester les endpoints** :
 - Utilisez curl, Postman, ou un navigateur
-
-## Instructions
-Pour cloner le projet localement :
-```bash
-git clone git@github.com:DebianeTassadit/programmation_distr.git
