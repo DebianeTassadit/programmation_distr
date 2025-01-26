@@ -1,0 +1,17 @@
+# Ignorer les fichiers et dossiers générés par Gradle
+.gradle/
+build/
+
+# Ignorer les fichiers de logs
+*.log
+
+# Ignorer les fichiers compilés
+*.class
+*.jar
+
+# Ignorer les fichiers système ou spécifiques à l'IDE
+*.iml
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
