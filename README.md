@@ -1,4 +1,3 @@
-  GNU nano 7.2                                                                                                                       README.md                                                                                                                       Modkkjj
 # Programmation Distribuée
 
 ## Description
