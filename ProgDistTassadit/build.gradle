@@ -34,3 +34,10 @@ application {
     mainClass = 'com.project.ProgDistTassadit.ProgDistTassaditApplication'
 
 }
+bootJar {
+    archiveBaseName = 'rentalService'
+    archiveVersion = '0.0.1-SNAPSHOT'
+}
+jar {
+    enabled = true
+}
