@@ -1,4 +1,4 @@
-FROM openjdk:23-oracle
+FROM eclipse-temurin:21-jdk
 VOLUME /tmp
 EXPOSE 8080
 ADD ./build/libs/rentalService-0.0.1-SNAPSHOT.jar app.jar
