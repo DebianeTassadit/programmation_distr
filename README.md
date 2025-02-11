@@ -1,45 +1,80 @@
 # Programmation Distribuée
 
 ## Description
-Ce dépôt contient le projet **"Programmation Distribuée"**, développé dans le cadre du cours sur la programmation distribuée. L'objectif est de créer et tester des applications réparties qui exploitent les concepts de programmation distribuée, en mettant en œuvre des services REST à l'aide de **Spring Boot**.
+Ce dépôt contient le projet **Programmation Distribuée**, développé dans le cadre d'un cours sur la programmation distribuée. L'objectif est de déployer un service REST en Java avec **Spring Boot**, puis de le conteneuriser avec **Docker** et l'orchestrer avec **Kubernetes et Istio**.
 
-Ce projet inclut des endpoints REST pour gérer et consulter des informations via un serveur Tomcat intégré.
-
-## Technologies utilisées
-- **Langage principal** : Java
-- **Frameworks et bibliothèques** :
-  - **Spring Boot** : Développement rapide de l'application backend.
-  - **SLF4J** : Gestion des logs pour tracer les événements et les requêtes.
-
-- **Outils de développement** :
-  - **Gradle** : Gestionnaire de build.
-  - **Git** : Gestion des versions du code.
-  - **Postman** : Test des API REST.
-- **Environnement d'exécution** :
-  - Serveur Tomcat intégré (port 8080, par défaut).
+## Technologies
+- **Langage principal** : Java 21
+- **Frameworks et outils** :
+  - **Spring Boot** : API REST et logique applicative
+  - **SLF4J** : Gestion des logs
+  - **Gradle** : Gestionnaire de build
+- **Conteneurisation & Orchestration** :
+  - **Docker** : Conteneurisation de l'application
+  - **Kubernetes (Minikube)** : Orchestration des services
+  - **Istio** : Gestion du trafic et des communications inter-services
 
 ## Endpoints disponibles
-Voici les endpoints actuellement implémentés :
-- **GET** `/bonjour` : Retourne un message de bienvenue.
-- **GET** `/bonjour_new` : Retourne un message de re-bienvenue.
-- **GET** `/cars/rentalNumber` : Log une requête pour obtenir les numéros de location.
-- **GET** `/cars/{plateNumber}` : Log une requête pour obtenir les détails d'une voiture via son numéro de plaque.
+L'API expose plusieurs endpoints accessibles via HTTP :
+- `GET /bonjour` : Retourne un message de bienvenue
+- `GET /bonjour_new` : Retourne un message de re-bienvenue
+- `GET /cars/rentalNumber` : Renvoie le nombre total de voitures en location
+- `GET /cars/{plateNumber}` : Renvoie les détails d'une voiture à partir de son numéro de plaque
 
-## Installation et utilisation
-1. **Cloner le projet localement** :
-   ```bash
-   git clone git@github.com:DebianeTassadit/programmation_distr.git
-   cd programmation_distr
-2. **Configurer l'environnement** :
+## Installation et Exécution
 
-- Installez **Java 21+**.
-- Installez **Gradle** (si ce n'est pas déjà fait).
+### 1. Cloner le projet
+```bash
+git clone git@github.com:DebianeTassadit/programmation_distr.git
+cd programmation_distr
+```
 
-3. **Démarrer l'application** :
+### 2. Configuration de l'environnement
+Assurez-vous d'avoir installé les dépendances suivantes :
+- **Java 21+**
+- **Gradle**
+- **Docker** (avec un compte Docker Hub configuré)
+- **Minikube** (pour exécuter Kubernetes en local)
 
-- Avec Gradle Wrapper :
-  ```bash
-  ./gradlew bootRun
+### 3. Construire et Exécuter l'Application
+Avec Gradle Wrapper :
+```bash
+./gradlew bootRun
+```
+L'application est alors accessible sur `http://localhost:8080`.
 
-4. **Tester les endpoints** :
-- Utilisez curl, Postman, ou un navigateur
+### 4. Conteneurisation avec Docker
+```bash
+docker build -t rentalservice .
+docker run -p 4000:8080 rentalservice
+```
+L'API est accessible via `http://localhost:4000/bonjour`.
+
+### 5. Déploiement sur Kubernetes avec Minikube
+Démarrer Minikube :
+```bash
+minikube start --driver=docker
+kubectl apply -f deployment.yml
+```
+Vérifier que le service est bien déployé :
+```bash
+kubectl get pods
+kubectl get services
+```
+Obtenir l'URL du service exposé :
+```bash
+minikube service rentalservice --url
+```
+
+### 6. Mise en place d'Istio
+Installation d'Istio :
+```bash
+istioctl install --set profile=demo -y
+kubectl label namespace default istio-injection=enabled
+```
+Application de la configuration Istio :
+```bash
+kubectl apply -f deployment.yml
+```
+L'application est alors accessible via l'Ingress Gateway Istio.
+
