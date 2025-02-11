@@ -13,7 +13,6 @@ spec:
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: rentalservice
     spec:
@@ -25,14 +24,13 @@ spec:
             - containerPort: 8080
           resources: {}
       restartPolicy: Always
-status: {}
+      terminationGracePeriodSeconds: 30  # Ajout pour éviter des arrêts brutaux
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
     app: rentalservice
   name: rentalservice
@@ -45,15 +43,13 @@ spec:
   selector:
     app: rentalservice
   type: LoadBalancer
-status:
-  loadBalancer: {}
 
 ---
 
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: microservice-gateway
+  name: rentalservice-gateway
 spec:
   selector:
     istio: ingressgateway
@@ -65,26 +61,23 @@ spec:
       hosts:
         - "*"
 
-
 ---
 
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: carservice
+  name: rentalservice
 spec:
   hosts:
     - "*"
   gateways:
-    - microservice-gateway
+    - rentalservice-gateway
   http:
     - match:
         - uri:
-            prefix: /rentalservice/
-      rewrite:
-        uri: /
+            prefix: "/rentalservice"
       route:
         - destination:
+            host: rentalservice.default.svc.cluster.local
             port:
               number: 80
-            host: rentalservice.default.svc.cluster.local
